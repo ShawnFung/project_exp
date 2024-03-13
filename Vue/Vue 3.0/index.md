@@ -18,6 +18,18 @@ Composition API 的设计理念就是把接口的可重复部分及其功能提�
 - `v-model` 与 `defineModel` [3.4+]
 - `v-model` 与 `defineProps`、`defineEmits` [3.4之前]
 
+## 路由
+- [keep-alive与router-view的相爱相杀](https://juejin.cn/post/7083793875390693383)
+```js
+<router-view v-slot="{ Component }">
+  <transition :name="setTransitionName" mode="out-in">
+    <keep-alive :include="getKeepAliveNames">
+      <component :is="Component" :key="state.refreshRouterViewKey" class="w100" />
+    </keep-alive>
+  </transition>
+</router-view>
+```
+
 ## 其他
 - 状态管理
   - pinia
