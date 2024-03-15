@@ -15,8 +15,37 @@ Composition API 的设计理念就是把接口的可重复部分及其功能提�
     - provide/inject
 
 ## 双向数据绑定
-- `v-model` 与 `defineModel` [3.4+]
+- `v-model` 与 `defineModel` [3.4+]  
+  `defineModel` 本质上就是一个语法糖，也是通过抛出事件来实现的。
 - `v-model` 与 `defineProps`、`defineEmits` [3.4之前]
+- 使用 vueuse 的双向绑定工具，`useVModel`
+```js
+import { useVModel } from "@vueuse/core";
+const props = withDefaults(defineProps<FormProps>(), {
+  data: () => ""
+});
+const emit = defineEmits(["update:data"]);
+const data = useVModel(props, "data", emit);
+```
+- 当类型为对象时，有一种投机取巧的方案
+```js
+const props = withDefaults(defineProps<FormProps>(), {
+  formInline: () => ({ user: "", region: "" })
+});
+// vue 规定所有的 prop 都遵循着单向绑定原则，直接修改 prop 时，Vue 会抛出警告。此处的写法仅仅是为了消除警告。
+// 因为对一个 reactive 对象执行 ref，返回 Ref 对象的 value 值仍为传入的 reactive 对象，
+// 即 newFormInline === props.formInline 为 true，所以此处代码的实际效果，仍是直接修改 props.formInline。
+// 但该写法仅适用于 props.formInline 是一个对象类型的情况，原始类型需抛出事件
+// 推荐阅读：https://cn.vuejs.org/guide/components/props.html#one-way-data-flow
+const newFormInline = ref(props.formInline);
+```
+
+## [渲染函数 & JSX](https://cn.vuejs.org/guide/extras/render-function.html)
+- 使用 JSX。在 .vue 文件启用 jsx 语法，需要在 script 开启 lang="tsx"
+```js
+<script setup lang="tsx">
+```
+- 渲染函数。`h()` 或者 `createVnode()`
 
 ## 路由
 - [keep-alive与router-view的相爱相杀](https://juejin.cn/post/7083793875390693383)
@@ -50,3 +79,4 @@ Composition API 的设计理念就是把接口的可重复部分及其功能提�
   - [推荐10个基于Vue3.0全家桶的优秀开源项目](https://zhuanlan.zhihu.com/p/584484310)
 - 参考文档
   - [Vue3必学技巧-自定义Hooks-让写Vue3更畅快](https://juejin.cn/post/7083401842733875208)
+  - [template setup 和 tsx 的混合开发实践](https://juejin.cn/post/7282692088016437307)

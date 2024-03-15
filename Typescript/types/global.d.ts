@@ -18,6 +18,7 @@ declare module '*.js';
 
 // 声明文件，*.vue 后缀的文件交给 vue 模块来处理
 declare module '*.vue' {
+	// DefineComponent，在定义 Vue 组件时提供类型推导的辅助函数
 	import type { DefineComponent } from 'vue';
 	const component: DefineComponent<{}, {}, any>;
 	export default component;

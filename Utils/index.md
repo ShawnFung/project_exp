@@ -1,7 +1,6 @@
 # 公共方法或插件
 
 - 自定义打印
-  - print.ts 打印指定 html 内容。
   - [printjs 自定义打印](https://printjs.crabbly.com/#documentation)
 - 文件相关
   - [js-table2excel 将表格导出为 excel 文件](https://www.npmjs.com/package/js-table2excel)
@@ -16,7 +15,10 @@
 - 图标相关
   - [IconPark](https://iconpark.oceanengine.com/official)
 - [图片懒加载](https://juejin.cn/post/6890325820200943629)
-- watermark.ts 添加水印
+- 本地
+  - print.ts 打印指定 html 内容。
+  - watermark.ts 添加水印
+  - download.ts 通用下载方法
 
 
 ## 自定义打印
