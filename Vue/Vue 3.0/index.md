@@ -48,35 +48,33 @@ const newFormInline = ref(props.formInline);
 - 渲染函数。`h()` 或者 `createVnode()`
 
 ## 路由
-- [keep-alive与router-view的相爱相杀](https://juejin.cn/post/7083793875390693383)
 ```js
 <router-view v-slot="{ Component }">
-  <transition :name="setTransitionName" mode="out-in">
-    <keep-alive :include="getKeepAliveNames">
-      <component :is="Component" :key="state.refreshRouterViewKey" class="w100" />
+  <transition mode="out-in">
+    <keep-alive :include="['Menu', 'Role']">
+      <component :is="Component" :key="$route.fullPath" />
     </keep-alive>
   </transition>
 </router-view>
 ```
+注意事项：
+- keep-alive 中的 include 属性，用于配置哪些组件需要配缓存，里面的值为组件的 name；
+- Vue 3 中如何给组件设置 name 呢？
+  - `defineOptions` 3.3+
+  - 写两个 script 标签
+    ```vue
+    <script>
+      export default {
+        name: 'demo'
+      }
+    </script>
 
-## 其他
-- 状态管理
-  - pinia
-- 指令
-  - clickOutside.ts
-- 第三方库
-  - hooks 工具集
-    - [VueUse](https://vueuse.org/)
-  - UI
-    - [tippy.js 纯JS库工具提示(tooltip)库](https://atomiks.github.io/tippyjs/v6/)
-      - 在 Vue 中使用 tippy.js，封装成组件调用，响应 components/Popover.vue
-      - 在 Vue 中使用 tippy.js，封装为指令调用，详见 directives/tooltip.ts
-    - [vue-grid-layout 拖拽布局](https://www.npmjs.com/package/vue-grid-layout)
-    - [splitpanes 可拖拽分隔面板](https://www.npmjs.com/package/splitpanes)，[文档](https://antoniandre.github.io/splitpanes/)
-  - 其他
-    - [pptxtojson 将 .pptx 文件转为可读的 json 数据的 JavaScript 库](https://github.com/pipipi-pikachu/pptx2json)
-- 开源项目
-  - [推荐10个基于Vue3.0全家桶的优秀开源项目](https://zhuanlan.zhihu.com/p/584484310)
-- 参考文档
-  - [Vue3必学技巧-自定义Hooks-让写Vue3更畅快](https://juejin.cn/post/7083401842733875208)
-  - [template setup 和 tsx 的混合开发实践](https://juejin.cn/post/7282692088016437307)
+    <script setup>
+      // do something...
+    </script>
+    ```
+- router-view 中 key属性，配置不同的属性值，对应的缓存策略不同
+  - 不设置
+  - :key="$route.path"
+  - :key="$route.fullPath"
+- [keep-alive与router-view的相爱相杀](https://juejin.cn/post/7083793875390693383)  
