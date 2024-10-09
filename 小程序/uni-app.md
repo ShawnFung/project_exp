@@ -42,4 +42,12 @@
 ## 文件相关
 文件预览：uni.downloadFile -> uni.openDocument
 选取本地文件并上传：uni.chooseImage -> uni.uploadFile
-  
+
+## 其他
+- [uniapp页面间通信相关方法总结](https://cloud.tencent.com/developer/article/1835962)
+  - 利用url传参进行通讯
+  - uni.$emit()和uni.$on() 进行通讯
+  - 使用 EventBus 进行通讯
+  - 利用“全局变量”进行通讯
+  - Vuex
+  - 通过 getCurrentPages() 获取页面栈，然后就可以在当前页面调用其他页面的方法
